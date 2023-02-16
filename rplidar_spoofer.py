@@ -21,9 +21,15 @@ def send_request():
 
 if(__name__ == "__main__"):
     if (args.once):
-        send_request()
+        try:
+            send_request()
+        except Exception as e:
+            print(e)
     else:
         while(True):
-            send_request()
+            try:
+                send_request()
+            except Exception as e:
+                print(e)
             time.sleep(0.3)
 
