@@ -1,22 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <body>
 
 <h1>Hello World!</h1>
 <ul>
-    <li>something</li>
+    <li id="display">NO DATA</li>
 </ul>
 
 </body>
+<script type="text/javascript" src="{% static 'js/websocket.js' %}"></script>
 <script language="javascript">
-    // [TODO] Try to connect when connection is lost
-    var ws_url = "ws://" + window.location.host + "/ws/ticks/";
-    var ticksSocket = new WebSocket(ws_url);
-    console.log("run!!")
-    ticksSocket.onmessage = function(event) {
+    var display = document.getElementById("display");
+    on_update = function(event) {
         var data = JSON.parse(event.data);
-        console.log("data", data);
-        // do whatever required with received data ...
-    };
+        display.innerText = display.textContent = data[0]["csv_string"];
+    }
+    on_close = function(event) {
+        display.innerText = display.textContent = "connection lost"
+    }
+    var ws_url = "ws://" + window.location.host + "/ws/ticks/";
+    var ticks = new WSHandler(ws_url);
+    ticks.set_onmessage(on_update);
+    ticks.set_onclose(on_close)
+
 </script>
 </html>
