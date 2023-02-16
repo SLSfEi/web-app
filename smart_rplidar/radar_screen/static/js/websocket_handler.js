@@ -10,13 +10,23 @@ class WSHandler {
         this._create_connection();
     }
     _create_connection(){
-        this.ws_timeout = setTimeout(this.message_timeout_ms, 1000)
+        // reset timeout if it was set
+        if (typeof(this.ws_timeout) != "undefine"){
+            console.log("clearing old timeout")
+            clearInterval(this.ws_timeout)
+        }
 
+        // start new timeout
+        this.ws_timeout = setTimeout(this.message_timeout_ms, 1000)
+        console.log("setting new timeout")
+
+        // create websocket connection and define callbacks
         if(typeof this.socket == "undefined"){
             this.socket = new WebSocket(this.ws_url);
             this.socket.onopen = this._wrap_onopen(()=>{void(0)});
             this.socket.onclose = this._wrap_onclose(()=>{void(0)});
         } else {
+            // backup callbacks before recreating websocket connection
             var temp_onpen = this.socket.onopen;
             var temp_onmessage = this.socket.onmessage;
             var temp_onclose = this.socket.onclose;
@@ -42,9 +52,14 @@ class WSHandler {
         this.socket.onerror = callback;
     }
     set_ontimeout(callback){
-        clearTimeout(this.ontimeout);
+        // reset timeout if it was set
+        if (typeof(this.ws_timeout) != "undefine"){
+            clearInterval(this.ws_timeout)
+        }
+
         this.ontimeout = callback;
-        this.ws_timeout = setTimeout(this.ontimeout, message_timeout_ms);
+
+        this.ws_timeout = setTimeout(this.ontimeout, this.message_timeout_ms);
     }
     _wrap_onopen(callback){
         return function(event) {
@@ -58,14 +73,14 @@ class WSHandler {
             console.log("Socket is close, Reconnection will be attempted.");
             setTimeout(function() {
                 this._create_connection();
-            }.bind(this), reconnect_timeout_ms);
+            }.bind(this), this.reconnect_timeout_ms);
         }.bind(this);
     }
     _wrap_onmessage(callback){
         return function(event){
             clearTimeout(this.ws_timeout)
             callback(event)
-            this.ws_timeout = setTimeout(this.ontimeout, message_timeout_ms)
+            this.ws_timeout = setTimeout(this.ontimeout, this.message_timeout_ms)
         }.bind(this)
     }
 }
