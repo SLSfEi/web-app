@@ -69,8 +69,16 @@ TEMPLATES = [
     },
 ]
 
+WSGI_APPLICATION = "smart_rplidar.wsgi.application"
+
+# Websocket Daphne, Channel stuffs
 ASGI_APPLICATION = "smart_rplidar.asgi.application"
-WSGI_APPLICATION = 'smart_rplidar.wsgi.application'
+TICKS_GROUP_NAME = "radar_screen"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 
 # Database

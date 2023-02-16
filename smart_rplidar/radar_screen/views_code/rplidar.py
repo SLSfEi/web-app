@@ -4,6 +4,19 @@ import csv
 
 from radar_screen.models import ScanIteration
 
+import json
+from asgiref.sync import async_to_sync
+import channels.layers
+from django.conf import settings
+
+def broadcast_ticks(ticks):
+    channel_layer = channels.layers.get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        settings.TICKS_GROUP_NAME, {
+            "type": 'new_ticks',
+            "content": json.dumps(ticks),
+        })
+
 def parse_csv_to_list(csv_str):
     reader = csv.DictReader(csv_str.split("\n"))
 
@@ -23,14 +36,8 @@ def update_scan(req):
     if(req.content_type == "text/csv"):
         decoded_str = req.body.decode("utf-8")
 
-        #Find existing ScanIteration if not found create one
-        iteration = ScanIteration.objects.filter(id=0)
-        if(iteration.first() is None):
-            print("Creating new iteration")
-            ScanIteration.objects.create(id=0, csv_string = decoded_str)
-        else:
-            print("Updating iteration")
-            iteration.update(timestamp = now(), csv_string = decoded_str)
+        # Broadcast to clients via WEBSOCKET
+        broadcast_ticks([{"csv_string": decoded_str}])
 
         return JsonResponse({"status":"OK"})
 

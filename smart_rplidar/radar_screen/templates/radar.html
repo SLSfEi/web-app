@@ -4,12 +4,12 @@
 
 <h1>Hello World!</h1>
 <ul>
-    <li>{{ scan_timestamp }}</li>
-    <li>{{ scan_csv }}</li>
+    <li>something</li>
 </ul>
 
 </body>
 <script language="javascript">
+    // [TODO] Try to connect when connection is lost
     var ws_url = "ws://" + window.location.host + "/ws/ticks/";
     var ticksSocket = new WebSocket(ws_url);
     console.log("run!!")
