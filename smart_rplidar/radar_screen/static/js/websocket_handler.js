@@ -12,13 +12,10 @@ class WSHandler {
     _create_connection(){
         // reset timeout if it was set
         if (typeof(this.ws_timeout) != "undefine"){
-            console.log("clearing old timeout")
             clearInterval(this.ws_timeout)
         }
-
         // start new timeout
-        this.ws_timeout = setTimeout(this.message_timeout_ms, 1000)
-        console.log("setting new timeout")
+        this.ws_timeout = setTimeout(this.ontimeout, this.message_timeout_ms)
 
         // create websocket connection and define callbacks
         if(typeof this.socket == "undefined"){
@@ -57,7 +54,7 @@ class WSHandler {
             clearInterval(this.ws_timeout)
         }
 
-        this.ontimeout = callback;
+        this.ontimeout = this._wrap_ontimeout(callback);
 
         this.ws_timeout = setTimeout(this.ontimeout, this.message_timeout_ms);
     }
@@ -78,9 +75,22 @@ class WSHandler {
     }
     _wrap_onmessage(callback){
         return function(event){
-            clearTimeout(this.ws_timeout)
+            // reset timeout if it was set
+            if (typeof(this.ws_timeout) != "undefine"){
+                clearInterval(this.ws_timeout)
+            }
             callback(event)
             this.ws_timeout = setTimeout(this.ontimeout, this.message_timeout_ms)
+        }.bind(this)
+    }
+    _wrap_ontimeout(callback){
+        return function(event){
+            // only active when connection is opened
+            var state = this.socket.readyState
+            console.log("state", state, WebSocket.CONNECTING, WebSocket.OPEN, WebSocket.CLOSING, WebSocket.CLOSED)
+            if(state === WebSocket.OPEN){
+                callback(event)
+            }
         }.bind(this)
     }
 }
