@@ -2,13 +2,15 @@ class WSHandler {
     constructor(ws_url){
         this.ws_url = ws_url;
 
-        this.timeout = 1000;
+        this.message_timeout_ms = 1000;
+        this.reconnect_timeout_ms = 1000;
+
         this.ontimeout = ()=>{()=>{void(0)}}; // by default ontimeout will do nothing
 
         this._create_connection();
     }
     _create_connection(){
-        this.ws_timeout = setTimeout(this.ontimeout, 1000)
+        this.ws_timeout = setTimeout(this.message_timeout_ms, 1000)
 
         if(typeof this.socket == "undefined"){
             this.socket = new WebSocket(this.ws_url);
@@ -42,7 +44,7 @@ class WSHandler {
     set_ontimeout(callback){
         clearTimeout(this.ontimeout);
         this.ontimeout = callback;
-        this.ws_timeout = setTimeout(this.ontimeout, 1000);
+        this.ws_timeout = setTimeout(this.ontimeout, message_timeout_ms);
     }
     _wrap_onopen(callback){
         return function(event) {
@@ -56,14 +58,14 @@ class WSHandler {
             console.log("Socket is close, Reconnection will be attempted.");
             setTimeout(function() {
                 this._create_connection();
-            }.bind(this), 1000);
+            }.bind(this), reconnect_timeout_ms);
         }.bind(this);
     }
     _wrap_onmessage(callback){
         return function(event){
             clearTimeout(this.ws_timeout)
             callback(event)
-            this.ws_timeout = setTimeout(this.ontimeout, 1000)
+            this.ws_timeout = setTimeout(this.ontimeout, message_timeout_ms)
         }.bind(this)
     }
 }
