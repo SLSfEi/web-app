@@ -1,9 +1,15 @@
 class WSHandler {
     constructor(ws_url){
         this.ws_url = ws_url;
+
+        this.timeout = 1000;
+        this.ontimeout = ()=>{()=>{void(0)}}; // by default ontimeout will do nothing
+
         this._create_connection();
     }
     _create_connection(){
+        this.ws_timeout = setTimeout(this.ontimeout, 1000)
+
         if(typeof this.socket == "undefined"){
             this.socket = new WebSocket(this.ws_url);
             this.socket.onopen = this._wrap_onopen(()=>{void(0)});
@@ -25,13 +31,18 @@ class WSHandler {
         this.socket.onopen = this._wrap_onclose(callback);
     }
     set_onmessage(callback){
-        this.socket.onmessage = callback;
+        this.socket.onmessage = this._wrap_onmessage(callback);
     }
     set_onclose(callback){
         this.socket.onclose = this._wrap_onclose(callback);
     }
     set_onerror(callback){
         this.socket.onerror = callback;
+    }
+    set_ontimeout(callback){
+        clearTimeout(this.ontimeout);
+        this.ontimeout = callback;
+        this.ws_timeout = setTimeout(this.ontimeout, 1000);
     }
     _wrap_onopen(callback){
         return function(event) {
@@ -47,6 +58,12 @@ class WSHandler {
                 this._create_connection();
             }.bind(this), 1000);
         }.bind(this);
-
+    }
+    _wrap_onmessage(callback){
+        return function(event){
+            clearTimeout(this.ws_timeout)
+            callback(event)
+            this.ws_timeout = setTimeout(this.ontimeout, 1000)
+        }.bind(this)
     }
 }

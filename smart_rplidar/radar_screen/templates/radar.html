@@ -9,20 +9,25 @@
 </ul>
 
 </body>
-<script type="text/javascript" src="{% static 'js/websocket.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/websocket_handler.js' %}"></script>
 <script language="javascript">
     var display = document.getElementById("display");
+    
+    on_close = function(event) {
+        display.innerText = display.textContent = "connection lost"
+    }
     on_update = function(event) {
         var data = JSON.parse(event.data);
         display.innerText = display.textContent = data[0]["csv_string"];
     }
-    on_close = function(event) {
-        display.innerText = display.textContent = "connection lost"
+    on_timeout = function(event){
+        display.innerText = display.textContent = "connection timeout"
     }
     var ws_url = "ws://" + window.location.host + "/ws/ticks/";
     var ticks = new WSHandler(ws_url);
     ticks.set_onmessage(on_update);
-    ticks.set_onclose(on_close)
+    ticks.set_onclose(on_close);
+    ticks.set_ontimeout(on_timeout);
 
 </script>
 </html>
