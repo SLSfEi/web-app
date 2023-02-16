@@ -3,16 +3,16 @@
 <html>
 <body>
 
-<h1>Hello World!</h1>
-<ul>
-    <li id="display">NO DATA</li>
-</ul>
+<h1>Radar Screen</h1>
+<p id="display"></p>
 
 </body>
 <script type="text/javascript" src="{% static 'js/websocket_handler.js' %}"></script>
 <script language="javascript">
+    // define display element
     var display = document.getElementById("display");
     
+    // define event callbacks
     on_close = function(event) {
         display.innerText = display.textContent = "connection lost"
     }
@@ -23,6 +23,8 @@
     on_timeout = function(event){
         display.innerText = display.textContent = "connection timeout"
     }
+
+    // initiate websocket handler
     var ws_url = "ws://" + window.location.host + "/ws/ticks/";
     var ticks = new WSHandler(ws_url);
     ticks.set_onmessage(on_update);
