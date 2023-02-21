@@ -2,8 +2,6 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
 import csv
 
-from radar_screen.models import ScanIteration
-
 import json
 from asgiref.sync import async_to_sync
 import channels.layers
@@ -36,16 +34,9 @@ def update_scan(req):
     if(req.content_type == "text/csv"):
         decoded_str = req.body.decode("utf-8")
 
+        data = parse_csv_to_list(decoded_str)
+
         # Broadcast to clients via WEBSOCKET
-        broadcast_ticks([{"csv_string": decoded_str}])
+        broadcast_ticks([{"scan_data": data}])
 
         return JsonResponse({"status":"OK"})
-
-def get_scan(req):
-    iteration = ScanIteration.objects.filter(id=0).first()
-    if iteration is None:
-        return JsonResponse({"status": "Failed, no data"})
-    return JsonResponse({
-        "status": "OK",
-        "data": {"timestamp": iteration.timestamp, "csv_string": iteration.csv_string}
-    })

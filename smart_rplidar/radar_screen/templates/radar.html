@@ -1,35 +1,105 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width,initial-scale=1'>
+        <style type="text/css">
+            /*
+              This canvas background-color is not controlled by Scrawl-canvas
+              — We will hide it in due course
+            */
+            canvas {
+              background-color: black;
+            }
+            .container {
+                width: 100%
+            }
+          </style>
+    </head>
 <body>
 
-<h1>Radar Screen</h1>
-<p id="display"></p>
+    <h2>Radar Screen</h2>
+    <div class="container">
+        <canvas 
+        id="display"
+        width="400"
+        height="400"
+        data-scrawl-canvas
+        ></canvas>
+    </div>
 
 </body>
 <script type="text/javascript" src="{% static 'js/websocket_handler.js' %}"></script>
-<script language="javascript">
+<script type="module">
+    import * as scrawl from "{% static 'js/scrawl.js' %}";
+
     // define display element
-    var display = document.getElementById("display");
+    const canvas = scrawl.library.canvas["display"];
+
+    // Namespacing boilerplate
+    const namespace = 'radar-display';
+    const name = (n) => `${namespace}-${n}`;
+
+    canvas.set({
+        backgroundColor: 'honeydew',
+      }).setAsCurrentCanvas();
+    
+    var draw_hud = function(){
+        scrawl.makeBlock({
+            name: name('box'),
+        
+            startX: "50%",
+            startY: "50%",
+            handleX: "50%",
+            handleY: "50%",
+            width: "25%",
+            height: "25%",
+
+            fillStyle: "red"
+          });
+    }
+    var draw_points = function(scan_data){
+        var max_dist = 6000;
+        for(var i = 0; i < scan_data.length; i++){
+            var data = scan_data[i]
+            var x = `${((data.x/max_dist)+0.5)*100}%`
+            var y = `${((data.y/max_dist)+0.5)*100}%`
+            scrawl.makeBlock({
+                startX: x,
+                startY: y,
+                handleX: "50%",
+                handleY: "50%",
+                width: 10,
+                height: 10,
+
+                fillStyle: "blue"
+            })
+        }
+    }
+    
+    //draw_hud();
+    //canvas.render();
     
     // define event callbacks
-    on_close = function(event) {
-        display.innerText = display.textContent = "connection lost"
+    var on_conn_close = function(event) {
+        //display.innerText = display.textContent = "connection lost"
     }
-    on_update = function(event) {
-        var data = JSON.parse(event.data);
-        display.innerText = display.textContent = data[0]["csv_string"];
+    var on_conn_update = function(event) {
+        var data = JSON.parse(event.data)[0]["scan_data"];
+        draw_points(data) //[TODO] find a way to clear before redraw
+        canvas.render();
     }
-    on_timeout = function(event){
-        display.innerText = display.textContent = "connection timeout"
+    var on_conn_timeout = function(event){
+        //display.innerText = display.textContent = "connection timeout"
     }
 
     // initiate websocket handler
     var ws_url = "ws://" + window.location.host + "/ws/ticks/";
     var ticks = new WSHandler(ws_url);
-    ticks.set_onmessage(on_update);
-    ticks.set_onclose(on_close);
-    ticks.set_ontimeout(on_timeout);
+    ticks.set_onmessage(on_conn_update);
+    ticks.set_onclose(on_conn_close);
+    ticks.set_ontimeout(on_conn_timeout);
 
 </script>
 </html>
