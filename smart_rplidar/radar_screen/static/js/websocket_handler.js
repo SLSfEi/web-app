@@ -86,9 +86,7 @@ class WSHandler {
     _wrap_ontimeout(callback){
         return function(event){
             // only active when connection is opened
-            var state = this.socket.readyState
-            console.log("state", state, WebSocket.CONNECTING, WebSocket.OPEN, WebSocket.CLOSING, WebSocket.CLOSED)
-            if(state === WebSocket.OPEN){
+            if(this.socket.readyState === WebSocket.OPEN){
                 callback(event)
             }
         }.bind(this)
