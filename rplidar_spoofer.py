@@ -3,6 +3,7 @@ SERVER_ENDPOINT = "http://127.0.0.1:8000/api/v1/scan"
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("--once", "-o", action="store_true", help="send once")
+arg_parser.add_argument("--sample", "-s", action="store_true", help="send sample")
 args = arg_parser.parse_args()
 
 def gen_data():
@@ -11,12 +12,9 @@ def gen_data():
     rand_inc = random.random()
     while(cur_angle + rand_inc <= 360):
         cur_angle += rand_inc
-        #distance = random.randint(1,1000)
-        distance = 999
-        #x = math.cos(math.radians(cur_angle-270)) * distance
-        #y = -math.sin(math.radians(cur_angle-270)) * distance
-        x = math.cos(math.radians(cur_angle)) * distance
-        y = -math.sin(math.radians(cur_angle)) * distance
+        distance = 2700 + random.randint(-200,200)
+        x = math.cos(cur_angle) * distance
+        y = -math.sin(cur_angle) * distance
         data.append(f"1,{x:.3f},{y:.3f},{cur_angle:.3f},{distance},999")
         rand_inc = random.random()
     return "\n".join(data)
@@ -39,14 +37,19 @@ def send_request(data):
 if(__name__ == "__main__"):
     if (args.once):
         try:
-            send_request(load_data(random.choice([1,33,86])))
+            if (args.sample):
+                send_request(load_data(random.choice([1,33,86])))
+            else:
+                send_request(gen_data())
         except Exception as e:
             print(e)
     else:
         while(True):
             try:
-                send_request(load_data(random.choice([1,33,86])))
-                print("LOOP")
+                if (args.sample):
+                    send_request(load_data(random.choice([1,33,86])))
+                else:
+                    send_request(gen_data())
             except Exception as e:
                 print(e)
             time.sleep(0.3)
