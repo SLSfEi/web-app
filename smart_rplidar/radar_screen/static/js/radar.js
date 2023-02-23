@@ -12,15 +12,26 @@ canvas_host.appendChild(app.view);
 const points_container = new PIXI.Container();
 app.stage.addChild(points_container);
 
+// [BUG] Mobile browser not drawing these points
 const draw_points = (data) =>{
+    const max_dist = 6000;
     while(points_container.children[0]){
-        points_container.removeChild(points_container.children[0])
+        points_container.removeChild(points_container.children[0]);
     }
-    for(let point in data){
-        console.log(point)
+    for(let i = 0; i < data.length; i++){
+        const point_data = data[i];
+        const x = ((point_data.x / max_dist) * 1000) + 500;
+        const y = ((point_data.y / max_dist) * 1000) + 500;
+
+        const point = new PIXI.Graphics();
+        point.beginFill(0xFF0000)
+        .drawCircle(0,0,10)
+        .endFill();
+        point.x = x;
+        point.y = y;
+        points_container.addChild(point);
     }
 }
-
 
 //========== grid =========\\
 const grid_container = new PIXI.Container();
