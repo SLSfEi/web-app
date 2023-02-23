@@ -55,6 +55,7 @@
     }
     var on_conn_update = (event) => {
         var data = JSON.parse(event.data)[0]["scan_data"];
+        draw_points(data);
     }
     var on_conn_timeout = (event) => {
         //display.innerText = display.textContent = "connection timeout"

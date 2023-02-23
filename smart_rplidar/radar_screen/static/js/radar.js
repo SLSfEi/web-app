@@ -1,27 +1,55 @@
 const app = new PIXI.Application(
     {
+        width: 1000,
+        height: 1000,
         transparent: false,
         background: '#FFFFFF'
     });
 const canvas_host = document.getElementById("radar-screen");
 canvas_host.appendChild(app.view);
 
+//========== points ==========\\
 const points_container = new PIXI.Container();
 app.stage.addChild(points_container);
 
-// Create a 5x5 grid of points
-for (let i = 0; i < 25; i++) {
-    const point = new PIXI.Graphics();
-    point.beginFill(0x000000)
-    .drawCircle(0,0,2)
-    .endFill();
-    point.x = (i % 5) * 40;
-    point.y = Math.floor(i / 5) * 40;
-    points_container.addChild(point);
+const draw_points = (data) =>{
+    while(points_container.children[0]){
+        points_container.removeChild(points_container.children[0])
+    }
+    for(let point in data){
+        console.log(point)
+    }
 }
 
-points_container.x = app.screen.width / 2;
-points_container.y = app.screen.height / 2;
 
-points_container.pivot.x = points_container.width / 2;
-points_container.pivot.y = points_container.height / 2;
+//========== grid =========\\
+const grid_container = new PIXI.Container();
+app.stage.addChild(grid_container);
+const grid_divider = 7;
+
+// dots
+console.log(app.screen.width, app.screen.height)
+const grid_distance = (app.screen.width) / (grid_divider - 1);
+for(var i = 0; i < grid_divider*grid_divider; i++){
+    const point = new PIXI.Graphics()
+    point.beginFill(0x000000)
+    .drawCircle(0,0,5)
+    .endFill()
+    const center_x = app.screen.width / 2;
+    const center_y = app.screen.height / 2;
+    point.x = ((i % grid_divider) * grid_distance);
+    point.y = (Math.floor(i / grid_divider) * grid_distance);
+    grid_container.addChild(point);
+}
+
+// lines
+const line = new PIXI.Graphics();
+line.lineStyle(1, 0x000000, 1)
+.moveTo(app.screen.width / 2, 0)
+.lineTo(app.screen.width / 2, app.screen.height)
+grid_container.addChild(line)
+
+line.lineStyle(1, 0x000000, 1)
+.moveTo(0, app.screen.height / 2)
+.lineTo(app.screen.width, app.screen.height / 2)
+grid_container.addChild(line)
