@@ -9,12 +9,7 @@
               This canvas background-color is not controlled by Scrawl-canvas
               — We will hide it in due course
             */
-            canvas {
-              background-color: black;
-              width: 100%;
-              height: 100%;
-            }
-            .canvas-host {
+            #canvas-host {
                 overflow: hidden;
                 border: 1px solid red;
                 width: 70vh;
@@ -28,87 +23,47 @@
 <body>
 
     <h2>Radar Screen</h2>
-    <div class="canvas-host">
-        <canvas 
-        id="display"
-        width="400"
-        height="400"
-        data-scrawl-canvas
-        data-is-responsive="true"
-        data-base-width="1000"
-        data-base-height="1000"
-        data-fit="contain"
-        ></canvas>
+    <div id="canvas-host">
     </div>
 
 </body>
 <script type="text/javascript" src="{% static 'js/websocket_handler.js' %}"></script>
-<script type="module">
-    import * as scrawl from "{% static 'js/scrawl.js' %}";
+<script type="text/javascript" src="{% static 'js/pixi.min.js' %}"></script>
+<script type="text/javascript">
+    const app = new PIXI.Application({ width: 1000, height: 1000 , background: '#1099bb' });
+    const canvas_host = document.getElementById("canvas-host");
+    canvas_host.appendChild(app.view);
 
-    // define display element
-    const canvas = scrawl.library.canvas["display"];
+    const points_container = new PIXI.Container();
+    app.stage.addChild(points_container);
 
-    // Namespacing boilerplate
-    const namespace = 'radar-display';
-    const name = (n) => `${namespace}-${n}`;
-
-    canvas.set({
-        backgroundColor: 'honeydew',
-      }).setAsCurrentCanvas();
-    
-    var draw_hud = function(){
-        scrawl.makeBlock({
-            name: name('box'),
-        
-            startX: "50%",
-            startY: "50%",
-            handleX: "50%",
-            handleY: "50%",
-            width: "25%",
-            height: "25%",
-
-            fillStyle: "red"
-          });
-    }
-    var draw_points = function(scan_data){
-        var max_dist = 6000;
-        for(var i = 0; i < scan_data.length; i++){
-            var data = scan_data[i]
-            var x = `${((data.x/max_dist)+0.5)*100}%`
-            var y = `${((data.y/max_dist)+0.5)*100}%`
-            scrawl.makeBlock({
-                name: name("point"),
-                startX: x,
-                startY: y,
-                handleX: "50%",
-                handleY: "50%",
-                width: 10,
-                height: 10,
-
-                fillStyle: "blue"
-            })
-        }
+    // Create a 5x5 grid of points
+    for (let i = 0; i < 25; i++) {
+        const point = new PIXI.Graphics();
+        point.beginFill(0xFFFF00);
+        point.drawCircle(0,0,2);
+        point.endFill();
+        point.x = (i % 5) * 40;
+        point.y = Math.floor(i / 5) * 40;
+        points_container.addChild(point);
     }
 
-    scrawl.makeRender({
-        name: name('animation'),
-        target: canvas,
-      });
-    
-    //draw_hud();
-    //canvas.render();
-    
+    //points_container.x = app.screen.width / 2;
+    //points_container.y = app.screen.height / 2;
+
+    //points_container.pivot.x = points_container.width / 2;
+    //points_container.pivot.y = points_container.height / 2;
+
     // define event callbacks
-    var on_conn_close = function(event) {
+    var on_conn_close = (event) => {
         //display.innerText = display.textContent = "connection lost"
     }
-    var on_conn_update = function(event) {
+    var on_conn_update = (event) => {
         var data = JSON.parse(event.data)[0]["scan_data"];
         draw_points(data) //[TODO] find a way to clear before redraw
         canvas.render();
     }
-    var on_conn_timeout = function(event){
+    var on_conn_timeout = (event) => {
         //display.innerText = display.textContent = "connection timeout"
     }
 
