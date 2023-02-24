@@ -54,8 +54,8 @@
         //display.innerText = display.textContent = "connection lost"
     }
     var on_conn_update = (event) => {
-        var data = JSON.parse(event.data)[0]["scan_data"];
-        draw_points(data);
+        const points_data = JSON.parse(event.data)[0]["scan_data"];
+        draw_points(points_data);
     }
     var on_conn_timeout = (event) => {
         //display.innerText = display.textContent = "connection timeout"
