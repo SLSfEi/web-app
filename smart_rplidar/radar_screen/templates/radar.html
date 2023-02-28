@@ -14,6 +14,16 @@
     </div>
     
 </body>
+{% comment %} Passing data from template to js {% endcomment %}
+<script type="text/javascript">
+    const host = window.location.protocol + "//" + window.location.host;
+    const static_abs_path = (path_str) => {
+        return (new URL(path_str, host + "{% get_static_prefix %}")).toString();
+    }
+    const static_path = (path_str) => {
+        return static_abs_path(path_str).substring(host.length)
+    }
+</script>
 <script type="text/javascript" src="{% static 'js/websocket_handler.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/pixi.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
