@@ -4,38 +4,7 @@
     <head>
         <meta charset='utf-8'>
         <meta name='viewport' content='width=device-width,initial-scale=1'>
-        <style type="text/css">
-            html, body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-                background-color: #222;
-                color: white;
-            }
-            .radar-container {
-                display: flex;
-                flex-direction: column;
-                width:100%;
-                height:100%;
-                margin: 2;
-            }
-            .flex-full-width {
-                border: 1px solid red;
-                display: flex;
-                justify-content: center;
-                width: 100%;
-            }
-            #radar-screen{
-                height: 60%;
-            }
-            canvas {
-                display: block;
-                width: auto;
-                height: auto;
-            }
-          </style>
+        <link rel="stylesheet" href="{% static 'css/radar-screen.css' %}">
     </head>
 <body>
     <div class="radar-container">
@@ -47,26 +16,9 @@
 </body>
 <script type="text/javascript" src="{% static 'js/websocket_handler.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/pixi.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/grid.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/radar.js' %}"></script>
-<script type="text/javascript">
-    // define event callbacks
-    var on_conn_close = (event) => {
-        //display.innerText = display.textContent = "connection lost"
-    }
-    var on_conn_update = (event) => {
-        const points_data = JSON.parse(event.data)[0]["scan_data"];
-        draw_points(points_data);
-    }
-    var on_conn_timeout = (event) => {
-        //display.innerText = display.textContent = "connection timeout"
-    }
-
-    // initiate websocket handler
-    var ws_url = "ws://" + window.location.host + "/ws/ticks/";
-    var ticks = new WSHandler(ws_url);
-    ticks.set_onmessage(on_conn_update);
-    ticks.set_onclose(on_conn_close);
-    ticks.set_ontimeout(on_conn_timeout);
-
-</script>
+<script type="text/javascript" src="{% static 'js/marker.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 </html>

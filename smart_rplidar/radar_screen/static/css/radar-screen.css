@@ -1,0 +1,30 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #222;
+    color: white;
+}
+.radar-container {
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height:100%;
+    margin: 2;
+}
+.flex-full-width {
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+#radar-screen{
+    height: 60%;
+}
+canvas {
+    display: block;
+    width: auto;
+    height: auto;
+}
