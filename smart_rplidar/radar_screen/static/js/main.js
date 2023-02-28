@@ -18,4 +18,3 @@ ticks.set_onclose(on_conn_close);
 ticks.set_ontimeout(on_conn_timeout);
 
 add_test_markers()
-draw_markers()
