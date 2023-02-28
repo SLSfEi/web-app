@@ -1,13 +1,15 @@
+const status_elem = document.getElementById("connection_status")
 // define event callbacks
 var on_conn_close = (event) => {
-    //display.innerText = display.textContent = "connection lost"
+    status_elem.innerText = status_elem.textContent = "connection lost"
 }
 var on_conn_update = (event) => {
+    status_elem.innerText = status_elem.textContent = "connected"
     const points_data = JSON.parse(event.data)[0]["scan_data"];
     draw_points(points_data);
 }
 var on_conn_timeout = (event) => {
-    //display.innerText = display.textContent = "connection timeout"
+    status_elem.innerText = status_elem.textContent = "connection timeout"
 }
 
 // initiate websocket handler

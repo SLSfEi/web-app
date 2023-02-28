@@ -4,6 +4,7 @@ const max_dist = 6000;
 
 const color_success = "#5c9665"
 const color_fail = "#ff004f"
+const color_hover = "#ce7e00"
 const color_normal = "#000000"
 const color_hilight = "#3e6dbf"
 const color_background = "#ffffff"

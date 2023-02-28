@@ -3,6 +3,21 @@ const marker_list = [];
 const markers_container = new PIXI.Container();
 app.stage.addChild(markers_container);
 
+var on_marker_update = () => {
+    let marked_count = 0
+    for(let i = 0; i < marker_list.length ; i++){
+        marker = marker_list[i];
+        if(marker.marked){
+            marked_count += 1
+        }
+    }
+    const marked = document.getElementById("marked_marker")
+    marked.innerText = marked.textContent = marked_count
+
+    const total = document.getElementById("total_marker")
+    total.innerText = total.textContent = marker_list.length
+}
+
 const add_test_markers = () => {
     const offset = 2000;
     add_marker(-offset,-offset)
@@ -17,23 +32,47 @@ const add_test_markers = () => {
 }
 
 const add_marker = (pos_x, pos_y) => {
+    const [x,y] = scale_point(pos_x, pos_y)
+
+    const marker = {
+        x: pos_x,
+        y: pos_y,
+        scale_x: x,
+        scale_y: y,
+        marked: false,
+    }
+
     let texture = new PIXI.Graphics();
-    texture.beginFill(0xFF0000)
+    texture.beginFill(0xFFFFFF)
     .drawCircle(0,0,20)
     .endFill();
     texture = app.renderer.generateTexture(texture);
 
     const sprite = new PIXI.Sprite(texture);
+    marker.sprite = sprite;
+
+    sprite.tint = color_fail;
     sprite.anchor.set(0.5);
-    const [x,y] = scale_point(pos_x, pos_y)
     sprite.x = x;
     sprite.y = y;
+
+    sprite.eventMode = "dynamic";
+    sprite.cursor = "pointer";
+    sprite.on("pointerdown", () => {
+        if(marker.marked){
+            // console.log("setting to false")
+            marker.marked = false;
+            marker.sprite.tint = color_fail
+        } else {
+            // console.log("setting to true")
+            marker.marked = true;
+            marker.sprite.tint = color_success
+        }
+        on_marker_update()
+    })
+
     markers_container.addChild(sprite);
 
-    marker_list.push({
-        x: pos_x,
-        y: pos_y,
-        marked: false,
-        sprite: sprite
-    })
+    marker_list.push(marker)
+    on_marker_update()
 }
