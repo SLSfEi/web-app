@@ -2,14 +2,17 @@ const status_elem = document.getElementById("connection_status")
 // define event callbacks
 var on_conn_close = (event) => {
     status_elem.innerText = status_elem.textContent = "connection lost"
+    status_elem.style.background = color_fail;
 }
 var on_conn_update = (event) => {
     status_elem.innerText = status_elem.textContent = "connected"
+    status_elem.style.background = color_success;
     const points_data = JSON.parse(event.data)[0]["scan_data"];
     draw_points(points_data);
 }
 var on_conn_timeout = (event) => {
     status_elem.innerText = status_elem.textContent = "connection timeout"
+    status_elem.style.background = color_fail;
 }
 
 // initiate websocket handler
@@ -31,5 +34,3 @@ if(localStorage["width-value"] !== undefined
                                 Number(localStorage["y-n-value"])
     )
 }
-
-// add_test_markers()
