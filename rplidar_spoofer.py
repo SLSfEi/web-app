@@ -12,7 +12,8 @@ def gen_data():
     rand_inc = random.random()
     while(cur_angle + rand_inc <= 360):
         cur_angle += rand_inc
-        distance = random.randint(5000,6000)
+        # distance = random.randint(5000,6000)
+        distance = 6000
         x = math.cos(cur_angle) * distance
         y = -math.sin(cur_angle) * distance
         data.append(f"1,{x:.3f},{y:.3f},{cur_angle:.3f},{distance},999")
