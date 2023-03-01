@@ -15,23 +15,30 @@
         <h1>SLSfEi</h1>
         <form id="form">
             <div class="row">
-                <div class="column">
-                    <label for="width">Width</label>
-                    <input type="number" id="width" placeholder="Width in meters">
-                </div>
-                <div class="column">
-                    <label for="height">Height</label>
-                    <input type="number" id="height" placeholder="Height in meters">
+                <h2>Dimensions</h2>
+                <p style="text-align: left;">Each sides should not exceed 8.485 meters</p>
+                <div class="row">
+                    <div class="column">
+                        <label for="width">Width</label>
+                        <input type="number" step="any" min="0" max="8.485" id="width" placeholder="Width in meters">
+                    </div>
+                    <div class="column">
+                        <label for="height">Height</label>
+                        <input type="number" step="any" min="0" max="8.485" id="height" placeholder="Height in meters">
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="column">
-                    <label for="width">X-Axis Markers</label>
-                    <input type="number" id="x_n" placeholder="Number of marker in x-axis">
-                </div>
-                <div class="column">
-                    <label for="height">Y-Axis Markers</label>
-                    <input type="number" id="y_n" placeholder="Number of marker in y-axis">
+                Numbers
+                <div class="row">
+                    <div class="column">
+                        <label for="width">X-Axis Markers</label>
+                        <input type="number" id="x_n" placeholder="Number of marker in x-axis">
+                    </div>
+                    <div class="column">
+                        <label for="height">Y-Axis Markers</label>
+                        <input type="number" id="y_n" placeholder="Number of marker in y-axis">
+                    </div>
                 </div>
             </div>
             <button type="submit">Submit</button>
