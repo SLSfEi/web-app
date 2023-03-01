@@ -19,4 +19,17 @@ ticks.set_onmessage(on_conn_update);
 ticks.set_onclose(on_conn_close);
 ticks.set_ontimeout(on_conn_timeout);
 
-add_test_markers()
+// check for markers parameters
+if(localStorage["width-value"] !== undefined
+    && localStorage["height-value"] !== undefined
+    && localStorage["x-n-value"] !== undefined
+    && localStorage["y-n-value"] !== undefined
+){
+    add_marker_from_parameters(Number(localStorage["width-value"]),
+                                Number(localStorage["height-value"]),
+                                Number(localStorage["x-n-value"]),
+                                Number(localStorage["y-n-value"])
+    )
+}
+
+// add_test_markers()
