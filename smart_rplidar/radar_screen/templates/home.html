@@ -16,24 +16,22 @@
         <form id="form">
             <div class="row">
                 <div class="column">
-                    <label for="high">High</label>
-                    <input type="number" id="high" placeholder="High in meters">
-                </div>
-                <div class="column">
                     <label for="width">Width</label>
                     <input type="number" id="width" placeholder="Width in meters">
                 </div>
-            </div>
-            <div class="row">
                 <div class="column">
-                    <label for="distance">Distance</label>
-                    <input type="number" id="distance" placeholder="distance between mark points">
+                    <label for="height">Height</label>
+                    <input type="number" id="height" placeholder="Height in meters">
                 </div>
             </div>
             <div class="row">
                 <div class="column">
-                    <label for="amount">Number of Points</label>
-                    <input type="number" id="amount" placeholder="Total amount of explosives">
+                    <label for="width">X-Axis Markers</label>
+                    <input type="number" id="x_n" placeholder="Number of marker in x-axis">
+                </div>
+                <div class="column">
+                    <label for="height">Y-Axis Markers</label>
+                    <input type="number" id="y_n" placeholder="Number of marker in y-axis">
                 </div>
             </div>
             <button type="submit">Submit</button>
@@ -41,25 +39,25 @@
     
     <script>
         const form = document.getElementById('form')
-        const area_high = document.getElementById('high')
         const area_width = document.getElementById('width')
-        const distance = document.getElementById('distance')
-        const amount = document.getElementById('amount')
+        const area_height = document.getElementById('height')
+        const x_number = document.getElementById('x_n')
+        const y_number = document.getElementById('y_n')
 
         form.addEventListener('submit', function(e){
             e.preventDefault();
 
-            const areaHighValue = area_high.value;
             const areaWidthValue = area_width.value;
-            const distanceValue = distance.value;
-            const amountValue = amount.value;
+            const areaHeightValue = area_height.value;
+            const xNumberValue = x_number.value;
+            const yNumberValue = y_number.value;
+            
+            localStorage.setItem('width-value',areaWidthValue)
+            localStorage.setItem('height-value',areaHeightValue)
+            localStorage.setItem('x-n-value',xNumberValue)
+            localStorage.setItem('y-n-value',yNumberValue)
 
-            localStorage.setItem('high-value',areaHighValue)
-            localStorage.setItem('with-value',areaWidthValue)
-            localStorage.setItem('distance-value',distanceValue)
-            localStorage.setItem('amount-value',amountValue)
-
-            window.location.href = "radar.html";
+            window.location.href = "radar";
         })
     </script>
     </div>
