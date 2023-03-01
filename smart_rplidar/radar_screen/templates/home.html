@@ -1,9 +1,67 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLSfEi</title>
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}
+    ">
+</head>
 <body>
+    <div class="container">
+        <h1>SLSfEi</h1>
+        <form id="form">
+            <div class="row">
+                <div class="column">
+                    <label for="high">High</label>
+                    <input type="number" id="high" placeholder="High in meters">
+                </div>
+                <div class="column">
+                    <label for="width">Width</label>
+                    <input type="number" id="width" placeholder="Width in meters">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="distance">Distance</label>
+                    <input type="number" id="distance" placeholder="distance between mark points">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="amount">Number of Points</label>
+                    <input type="number" id="amount" placeholder="Total amount of explosives">
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    
+    <script>
+        const form = document.getElementById('form')
+        const area_high = document.getElementById('high')
+        const area_width = document.getElementById('width')
+        const distance = document.getElementById('distance')
+        const amount = document.getElementById('amount')
 
-<h1>Hello World!</h1>
-<p>Welcome to my first Django project!</p>
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
 
+            const areaHighValue = area_high.value;
+            const areaWidthValue = area_width.value;
+            const distanceValue = distance.value;
+            const amountValue = amount.value;
+
+            localStorage.setItem('high-value',areaHighValue)
+            localStorage.setItem('with-value',areaWidthValue)
+            localStorage.setItem('distance-value',distanceValue)
+            localStorage.setItem('amount-value',amountValue)
+
+            window.location.href = "radar.html";
+        })
+    </script>
+    </div>
 </body>
 </html>
