@@ -43,13 +43,17 @@ const add_marker = (pos_x, pos_y) => {
     }
 
     let texture = new PIXI.Graphics();
-    texture.beginFill(0xFFFFFF)
-    .drawCircle(0,0,20)
+    texture.beginFill(0xFFFFFF,0.3)
+    .drawCircle(0,0,40)
+    .endFill()
+    .beginFill(0xFFFFFF, 1)
+    .drawCircle(0,0,10)
     .endFill();
     texture = app.renderer.generateTexture(texture);
 
     const sprite = new PIXI.Sprite(texture);
     marker.sprite = sprite;
+
 
     sprite.tint = color_fail;
     sprite.anchor.set(0.5);
@@ -57,6 +61,7 @@ const add_marker = (pos_x, pos_y) => {
     sprite.y = y;
 
     sprite.eventMode = "dynamic";
+    sprite.buttonMode = true;
     sprite.cursor = "pointer";
     sprite.on("pointerdown", () => {
         if(marker.marked){
