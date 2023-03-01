@@ -1,7 +1,7 @@
 //grid dots
 const grid_container = new PIXI.Container();
 app.stage.addChild(grid_container);
-const grid_divider = 7;
+const grid_divider = 15;
 
 // dots
 const grid_distance = (app.screen.width) / (grid_divider - 1);
