@@ -31,6 +31,23 @@ const add_test_markers = () => {
     add_marker(offset,offset)
 }
 
+const add_marker_from_parameters = (width_m, height_m, number_x, number_y) => {
+    const x_dist = (width_m*1000) / (number_x-1);
+    const y_dist = (height_m*1000) / (number_y-1);
+
+    const offset_x = (width_m*1000) / 2;
+    const offset_y = (height_m*1000) / 2;
+
+    for(let x = 0; x < number_x; x++){
+        for(let y = 0; y < number_y; y++){
+            const pos_x = (x*x_dist) - offset_x;
+            const pos_y = (y*y_dist) - offset_y;
+            console.log([pos_x,pos_y])
+            add_marker(pos_x,pos_y);
+        }
+    }
+}
+
 const add_marker = (pos_x, pos_y) => {
     const [x,y] = scale_point(pos_x, pos_y)
 
