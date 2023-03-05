@@ -8,28 +8,26 @@
         <link rel="stylesheet" href="{% static 'css/radar-screen.css' %}">
     </head>
 <body>
-    <div class="radar-container">
-        <div id="connection_status" class="flex-full-width">
-        </div>
-        <div id="radar-screen" class="flex-full-width"></div>
-        <div id="radar-control" class="flex-full-width">
-            <div class="row">
-                <div class="flex-full-width">
-                    <p id="marked_marker">0</p>
-                    <p>&nbsp of &nbsp</p>
-                    <p id="total_marker">0</p>
-                </div>
+    <div class="container">
+        <div class="flex-container border top-radius bottom-radius">
+            <div id="header" class="section">
+                <p id="connection_status" class="text-center">connection status</p>
+            <div id="canvas-host" class="section border">
+                <!-- <div id="" class="full-width"></div> -->
             </div>
-            <div class="row">
-                <div class="flex-full-width">
-                    <button onclick="window.location.href='/';">
-                        Home
-                      </button>
+            <div id="footer" class="section">
+                <div class="row">
+                    <p id="marked_marker" class="text-center">0</p>
+                    <p class="text-center">&nbsp of &nbsp</p>
+                    <p id="total_marker" class="text-center">0</p>
+                </div>
+                <div class="row">
+                    <p class="text-center">update period: &nbsp</p>
+                    <p id="update_period">-1</p>
                 </div>
             </div>
         </div>
     </div>
-    
 </body>
 {% comment %} Passing data from template to js {% endcomment %}
 <script type="text/javascript">

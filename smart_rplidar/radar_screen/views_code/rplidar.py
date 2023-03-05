@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.utils.timezone import now
 import csv
 
@@ -33,10 +33,15 @@ def parse_csv_to_list(csv_str):
 def update_scan(req):
     if(req.content_type == "text/csv"):
         decoded_str = req.body.decode("utf-8")
-
-        data = parse_csv_to_list(decoded_str)
-
-        # Broadcast to clients via WEBSOCKET
-        broadcast_ticks([{"scan_data": data}])
-
-        return JsonResponse({"status":"OK"})
+        try:
+            data = parse_csv_to_list(decoded_str)
+            if len(data) == 0:
+                raise ValueError("cannot parse scan data")
+            # Broadcast to clients via WEBSOCKET
+            broadcast_ticks([{"scan_data": data}])
+            return JsonResponse({"status":"OK"})
+        except:
+            return JsonResponse({"status": "error", "description": "cannot parse data"})
+        
+        
+    return JsonResponse({"status": "error", "description": 'must be "text/csv"'})

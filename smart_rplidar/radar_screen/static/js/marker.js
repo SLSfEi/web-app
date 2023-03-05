@@ -42,7 +42,7 @@ const add_marker_from_parameters = (width_m, height_m, number_x, number_y) => {
         for(let y = 0; y < number_y; y++){
             const pos_x = (x*x_dist) - offset_x;
             const pos_y = (y*y_dist) - offset_y;
-            console.log([pos_x,pos_y])
+            // console.log([pos_x,pos_y])
             add_marker(pos_x,pos_y);
         }
     }

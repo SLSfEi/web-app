@@ -1,14 +1,24 @@
 const status_elem = document.getElementById("connection_status")
+const period_elem = document.getElementById("update_period")
+let update_period = -1;
+let last_update = new Date();
+
 // define event callbacks
 var on_conn_close = (event) => {
     status_elem.innerText = status_elem.textContent = "connection lost"
     status_elem.style.background = color_fail;
 }
 var on_conn_update = (event) => {
+    current_time = new Date()
+    update_period = (current_time - last_update); // in ms
+    last_update = current_time;
+    // console.log(update_period)
+    period_elem.innerText = period_elem.textContent = update_period;
+
     status_elem.innerText = status_elem.textContent = "connected"
     status_elem.style.background = color_success;
     const points_data = JSON.parse(event.data)[0]["scan_data"];
-    draw_points(points_data);
+    // draw_points(points_data);
 }
 var on_conn_timeout = (event) => {
     status_elem.innerText = status_elem.textContent = "connection timeout"

@@ -23,5 +23,4 @@ def scan(req):
     #rplidar endpoints
     if req.method == "POST":
         return rplidar.update_scan(req)
-    else:
-        return Http404()
+    return Http404()

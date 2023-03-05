@@ -18,19 +18,29 @@ const app = new PIXI.Application(
         transparent: false,
         background: color_background
     });
-const canvas_host = document.getElementById("radar-screen");
+const canvas_host = document.getElementById("canvas-host");
 canvas_host.appendChild(app.view);
 
 function resize() {
-    if (window.innerWidth / window.innerHeight >= app_sides_ratio) {
-        var w = window.innerHeight * app_sides_ratio;
-        var h = window.innerHeight;
+    let host_width = window.innerWidth;
+    let host_height = window.innerHeight;
+    
+    if(host_width > host_height){
+        host_height = host_height * 0.85;
+        console.log("width > height")
+    }
+    
+    if (host_width / host_height >= app_sides_ratio) {
+        var w = host_height * app_sides_ratio;
+        var h = host_height;
     } else {
-        var w = window.innerWidth;
-        var h = window.innerWidth / app_sides_ratio;
+        var w = host_width;
+        var h = host_width / app_sides_ratio;
     }
     app.renderer.view.style.width = w + 'px';
     app.renderer.view.style.height = h + 'px';
+
+    console.log([host_width, host_height], [h, w])
 }
 resize()
 window.onresize = resize;
