@@ -1,7 +1,9 @@
 const status_elem = document.getElementById("connection_status")
 const period_elem = document.getElementById("update_period")
+const draw_period_elem = document.getElementById("draw_period")
 let is_connected = false;
 let update_period = -1;
+let draw_period = -1;
 let last_update = new Date();
 
 // define event callbacks
@@ -24,6 +26,9 @@ var on_conn_update = (event) => {
     }
     const points_data = JSON.parse(event.data)[0]["scan_data"];
     draw_points(points_data);
+    draw_period = (new Date() - last_update);
+    draw_period_elem.innerText = draw_period_elem.textContent = draw_period;
+    
 }
 var on_conn_timeout = (event) => {
     if(is_connected){
