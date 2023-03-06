@@ -95,6 +95,14 @@ button{
     border-radius: 3px;
 }
 
+.button-reset-driver{
+    background: linear-gradient(
+        130deg,
+        #d3ae51,
+        #f57246
+    );
+}
+
 canvas{
     margin: auto;
 }
