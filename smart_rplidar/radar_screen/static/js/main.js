@@ -1,6 +1,8 @@
 const status_elem = document.getElementById("connection_status")
 const period_elem = document.getElementById("update_period")
 const draw_period_elem = document.getElementById("draw_period")
+const driver_state_elem = document.getElementById("driver_state")
+
 let is_connected = false;
 let update_period = -1;
 let draw_period = -1;
@@ -11,6 +13,7 @@ const set_connection_lost = (forced=false) =>{
     if(is_connected || forced){
         is_connected = false;
         status_elem.innerText = status_elem.textContent = "connection lost"
+        status_elem.style.dolor = "white";
         status_elem.style.background = color_fail;
     }
 }
@@ -18,6 +21,7 @@ const set_connection_timeout = (forced=false) =>{
     if(is_connected || forced){
         is_connected = false;
         status_elem.innerText = status_elem.textContent = "connection timeout"
+        status_elem.style.color = "white";
         status_elem.style.background = color_fail;
     }
 }
@@ -25,6 +29,7 @@ const set_connection_success = (forced=false) =>{
     if(is_connected == false || forced){
         is_connected = true;
         status_elem.innerText = status_elem.textContent = "connected"
+        status_elem.style.color = "black";
         status_elem.style.background = color_success;
     }
 }

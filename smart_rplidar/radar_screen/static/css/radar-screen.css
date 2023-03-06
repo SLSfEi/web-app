@@ -6,6 +6,7 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
+    font-size: small;
 }
 
 body {
@@ -30,8 +31,15 @@ div {
     text-align: center;
 }
 
+.margin {
+    margin: 2px;
+}
+
+.important {
+    font-size: medium;
+}
+
 .container {
-    /* width: fit-content; */
     max-width: fit-content;
     margin: auto;
     padding: 0.5%;
@@ -41,9 +49,9 @@ div {
     box-shadow: 20px 30px 25px rgba(0,0,0,0.15);
 }
 
-.flex-container {
+.col {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column wrap;
     justify-content: center;
     align-content: center;
     align-items: stretch;
@@ -51,10 +59,12 @@ div {
 
 .section{
     align-self: center;
+    margin: -1px;
 }
 
 .row {
     display: flex;
+    flex-flow: row wrap;
     justify-content: center;
     align-content: row;
 }
@@ -73,18 +83,14 @@ div {
     border-bottom-right-radius: 10px;
 }
 
-#header {
-    flex-grow: 2;
-    order: 1;
-}
-
-#canvas-host {
-    flex-grow: 2;
-    flex-basis: auto;
-    order: 2;
-}
-
-#footer {
-    flex-grow: 2;
-    order: 3;
+button{
+    border: none;
+    padding: 10px 20px;
+    background: linear-gradient(
+        130deg,
+        #6f6df4,
+        #4c46f5
+    );
+    color: #ffffff;
+    border-radius: 3px;
 }
