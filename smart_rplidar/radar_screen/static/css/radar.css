@@ -94,3 +94,7 @@ button{
     color: #ffffff;
     border-radius: 3px;
 }
+
+canvas{
+    margin: auto;
+}
