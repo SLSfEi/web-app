@@ -33,15 +33,15 @@ h1{
     color: #1c093c;
 }
 h3{
-    font-size: 30px;
+    font-size: 20px;
     text-align: left;
     color: #1c093c;
 }
 p{
-    position: relative;
+    /* position: relative; */
     margin: auto;
     width: 100%;
-    text-align: center;
+    text-align: left;
     color: #606060;
     font-size: 14px;
     font-weight: 400;
