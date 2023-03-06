@@ -20,11 +20,11 @@
                 <div class="row">
                     <div class="column">
                         <label for="width">Width (m)</label>
-                        <input type="number" step="any" min="0" max="8.485" id="width" placeholder="Width in meters">
+                        <input type="number" step="any" min="0" max="8.485" id="width" placeholder="Width in meters" required>
                     </div>
                     <div class="column">
                         <label for="height">Height (m)</label>
-                        <input type="number" step="any" min="0" max="8.485" id="height" placeholder="Height in meters">
+                        <input type="number" step="any" min="0" max="8.485" id="height" placeholder="Height in meters" required>
                     </div>
                 </div>
             </div>
@@ -34,15 +34,17 @@
                 <div class="row">
                     <div class="column">
                         <label for="width">X-Axis Markers</label>
-                        <input type="number" id="x_n" placeholder="Number of marker in x-axis">
+                        <input type="number" id="x_n" placeholder="Number of marker in x-axis" required>
                     </div>
                     <div class="column">
                         <label for="height">Y-Axis Markers</label>
-                        <input type="number" id="y_n" placeholder="Number of marker in y-axis">
+                        <input type="number" id="y_n" placeholder="Number of marker in y-axis" required>
                     </div>
                 </div>
             </div>
-            <button type="submit">Submit</button>
+            <button class="button-submit" type="submit">Submit</button>
+            <button class="button-reset" onclick="resetValues(event)">Reset</button>
+            <button class="button-skip" onclick="skipForm(event)">Skip</button>
         </form>
     
     <script>
@@ -67,6 +69,37 @@
 
             window.location.href = "radar";
         })
+
+        // check for markers parameters
+        if(localStorage["width-value"] !== undefined){
+            area_width.value = localStorage["width-value"]
+        }
+        if(localStorage["height-value"] !== undefined){
+            area_height.value = localStorage["height-value"]
+        }
+        if(localStorage["x-n-value"] !== undefined){
+            x_number.value = localStorage["x-n-value"]
+        }
+        if(localStorage["y-n-value"] !== undefined){
+            y_number.value = localStorage["y-n-value"]
+        }
+
+        const resetValues = (event) => {
+            event.preventDefault();
+
+            form.reset();
+
+            localStorage.removeItem('width-value')
+            localStorage.removeItem('height-value')
+            localStorage.removeItem('x-n-value')
+            localStorage.removeItem('y-n-value')
+        }
+
+        const skipForm = (event) => {
+            event.preventDefault();
+
+            window.location.href = "radar";
+        }
     </script>
     </div>
 </body>
