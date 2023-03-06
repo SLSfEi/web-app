@@ -26,7 +26,7 @@ function resize() {
     let host_height = window.innerHeight;
     
     if(host_width > host_height){
-        host_height = host_height * 0.85;
+        host_height = host_height * 0.7;
     }
     
     if (host_width / host_height >= app_sides_ratio) {
@@ -47,14 +47,3 @@ const scale_point = (x,y) => {
     const new_y = ((y / ((max_dist+additional_dist) * 2)) * app.screen.height) + (app.screen.height / 2);
     return [new_x,new_y]
 };
-
-function get_random_sub_array(arr, size) {
-    var shuffled = arr.slice(0), i = arr.length, min = i - size, temp, index;
-    while (i-- > min) {
-        index = Math.floor((i + 1) * Math.random());
-        temp = shuffled[index];
-        shuffled[index] = shuffled[i];
-        shuffled[i] = temp;
-    }
-    return shuffled.slice(min);
-}

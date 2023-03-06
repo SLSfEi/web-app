@@ -23,13 +23,9 @@ for(let i = 0; i < max_radar_point; i++){
 }
 
 const draw_points = (data) =>{
-    let sampled_data = data
-    if(data.length > max_radar_point){
-        sampled_data = get_random_sub_array(data, max_radar_point);
-    }
     for(let i = 0; i < max_radar_point; i++){
         const cur_point = radar_points[i];
-        if(i >= sampled_data.length){
+        if(i >= data.length){
             cur_point.alpha = 0;
             continue;
         }

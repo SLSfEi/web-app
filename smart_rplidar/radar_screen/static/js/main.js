@@ -4,8 +4,8 @@ const draw_period_elem = document.getElementById("draw_period")
 let is_connected = false;
 let update_period = -1;
 let draw_period = -1;
-let last_update = new Date();
-
+let last_update = Date.now();
+let points_data = []
 // define event callbacks
 var on_conn_close = (event) => {
     if(is_connected){
@@ -15,7 +15,7 @@ var on_conn_close = (event) => {
     }
 }
 var on_conn_update = (event) => {
-    current_time = new Date();
+    current_time = Date.now();
     update_period = (current_time - last_update); // in ms
     last_update = current_time;
     period_elem.innerText = period_elem.textContent = update_period;
@@ -24,9 +24,9 @@ var on_conn_update = (event) => {
         status_elem.innerText = status_elem.textContent = "connected"
         status_elem.style.background = color_success;
     }
-    const points_data = JSON.parse(event.data)[0]["scan_data"];
+    points_data = JSON.parse(event.data)[0]["scan_data"];
     draw_points(points_data);
-    draw_period = (new Date() - last_update);
+    draw_period = (Date.now() - last_update);
     draw_period_elem.innerText = draw_period_elem.textContent = draw_period;
     
 }

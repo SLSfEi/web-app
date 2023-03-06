@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse, Http404
 from django.utils.timezone import now
 import csv
+import random
 
 import json
 from asgiref.sync import async_to_sync
@@ -30,6 +31,7 @@ def parse_csv_to_list(csv_str):
         result.append(line_converted)
     return result
 
+max_radar_points = 1000
 def update_scan(req):
     if(req.content_type == "text/csv"):
         decoded_str = req.body.decode("utf-8")
@@ -37,6 +39,8 @@ def update_scan(req):
             data = parse_csv_to_list(decoded_str)
             if len(data) == 0:
                 raise ValueError("cannot parse scan data")
+            if len(data) > max_radar_points:
+                data = random.sample(data, max_radar_points)
             # Broadcast to clients via WEBSOCKET
             broadcast_ticks([{"scan_data": data}])
             return JsonResponse({"status":"OK"})
