@@ -29,7 +29,7 @@ const set_connection_success = (forced=false) =>{
     if(is_connected == false || forced){
         is_connected = true;
         status_elem.innerText = status_elem.textContent = "connected"
-        status_elem.style.color = "black";
+        status_elem.style.color = "white";
         status_elem.style.background = color_success;
     }
 }

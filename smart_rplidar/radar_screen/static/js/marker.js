@@ -3,19 +3,21 @@ const marker_list = [];
 const markers_container = new PIXI.Container();
 app.stage.addChild(markers_container);
 
-var on_marker_update = () => {
-    let marked_count = 0
+const marker_info_elem = document.getElementById("marker-info")
+
+const on_marker_update = () => {
+    if(marker_list.length == 0){
+        marker_info_elem.innerText = marker_info_elem.textContent = "NO MARKERS"
+        return;
+    }
+    let marked_count = 0;
     for(let i = 0; i < marker_list.length ; i++){
         marker = marker_list[i];
         if(marker.marked){
-            marked_count += 1
+            marked_count += 1;
         }
     }
-    const marked = document.getElementById("marked_marker")
-    marked.innerText = marked.textContent = marked_count
-
-    const total = document.getElementById("total_marker")
-    total.innerText = total.textContent = marker_list.length
+    marker_info_elem.innerText = marker_info_elem.textContent = `markers: ${marked_count} of ${marker_list.length}`
 }
 
 const add_test_markers = () => {
