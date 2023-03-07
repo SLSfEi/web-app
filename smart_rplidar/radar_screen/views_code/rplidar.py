@@ -1,20 +1,7 @@
-from django.http import HttpResponse, JsonResponse, Http404
-from django.utils.timezone import now
+from django.http import JsonResponse
 import csv
 import random
-
-import json
-from asgiref.sync import async_to_sync
-import channels.layers
-from django.conf import settings
-
-def broadcast_ticks(ticks):
-    channel_layer = channels.layers.get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        settings.TICKS_GROUP_NAME, {
-            "type": 'new_ticks',
-            "content": json.dumps(ticks),
-        })
+from radar_screen.views_code.broadcast import broadcast_ticks
 
 def parse_csv_to_list(csv_str):
     reader = csv.DictReader(csv_str.split("\n"))

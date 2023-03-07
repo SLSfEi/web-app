@@ -7,7 +7,22 @@ let is_connected = false;
 let update_period = -1;
 let draw_period = -1;
 let last_update = Date.now();
-let points_data = []
+
+let incomming_data = undefined;
+
+const post_driver_command = async (command) => {
+    try{
+        await fetch("/api/v1/driver", {
+            method: "post",
+            body: JSON.stringify({"command": command}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+    } catch(err) {
+        console.error(`Error: ${err}`);
+    }
+}
 
 const set_connection_lost = (forced=false) =>{
     if(is_connected || forced){
@@ -37,15 +52,33 @@ const set_connection_success = (forced=false) =>{
 // define event callbacks
 var on_conn_close = set_connection_lost
 var on_conn_update = (event) => {
-    current_time = Date.now();
-    update_period = (current_time - last_update); // in ms
-    last_update = current_time;
-    period_elem.innerText = period_elem.textContent = update_period;
-    set_connection_success();
-    points_data = JSON.parse(event.data)[0]["scan_data"];
-    draw_points(points_data);
-    draw_period = (Date.now() - last_update);
-    draw_period_elem.innerText = draw_period_elem.textContent = draw_period;
+    incomming_data = JSON.parse(event.data)[0];
+
+    if(incomming_data["driver_status"] !== undefined){
+        driver_state_elem.innerText = driver_state_elem.textContent = incomming_data["driver_status"]
+    }
+
+    if(incomming_data["scan_data"] !== undefined){
+        // calculate update_period
+        current_time = Date.now();
+        update_period = (current_time - last_update); // in ms
+        last_update = current_time;
+
+        // display update_period
+        period_elem.innerText = period_elem.textContent = update_period;
+
+        // display successful connection
+        set_connection_success();
+
+        // draw scan points
+        draw_points(incomming_data["scan_data"]);
+
+        // calculate draw_period
+        draw_period = (Date.now() - last_update);
+
+        // display draw_period
+        draw_period_elem.innerText = draw_period_elem.textContent = draw_period;
+    }
     
 }
 var on_conn_timeout = set_connection_timeout

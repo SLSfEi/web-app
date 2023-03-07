@@ -35,7 +35,7 @@ function resize() {
     }
     app.renderer.view.style.width = w + 'px';
     app.renderer.view.style.height = h + 'px';
-    console.log(host_width, host_height ,w,h, app.screen.width, app.screen.height)
+    // console.log(host_width, host_height ,w,h, app.screen.width, app.screen.height)
 }
 resize()
 window.onresize = resize;

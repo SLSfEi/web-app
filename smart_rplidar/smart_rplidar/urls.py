@@ -20,5 +20,6 @@ from radar_screen import views as rs_views
 urlpatterns = [
     path("", rs_views.home),
     path("radar", rs_views.radar),
-    path("api/v1/scan", rs_views.scan)
+    path("api/v1/scan", rs_views.scan),
+    path("api/v1/driver", rs_views.driver)
 ]
