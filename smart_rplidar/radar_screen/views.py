@@ -1,11 +1,9 @@
 from django.template import loader
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import radar_screen.views_code.rplidar as rplidar
 import radar_screen.views_code.driver as driver_ctrl
-
 import json
-
 from smart_rplidar.settings import BASE_DIR
 
 TEMPLATE_DIR =  BASE_DIR / "radar_screen" / "templates"
@@ -40,10 +38,15 @@ def driver(req):
             command = data["command"]
             if(command == "restart"):
                 driver_ctrl.restart_driver()
+            elif(command == "terminate"):
+                driver_ctrl.terminate_driver()
             else:
                 raise ValueError("unknown driver command")
+            print("command OK")
+            return JsonResponse({"status": "OK"})
         except Exception as e:
             print(e)
             return JsonResponse({"status": "error", "description": "cannot parse data"})
-        return JsonResponse({"status": "OK"})
+    elif req.method == "GET":
+        return JsonResponse({"status": "OK", "driver_status": driver_ctrl.is_driver_alive()})
     return JsonResponse({"status": "error", "description": "this endpoint supports POST only"})

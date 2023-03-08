@@ -24,6 +24,30 @@ const post_driver_command = async (command) => {
     }
 }
 
+const poll_driver_status = async () => {
+    try{
+        fetch("api/v1/driver")
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            let status = data["driver_status"]
+            if(status){
+                driver_state_elem.innerText = driver_state_elem.textContent = "RUNNING";
+                driver_state_elem.style.color = color_success;
+            } else {
+                driver_state_elem.innerText = driver_state_elem.textContent = "STOPPED";
+                driver_state_elem.style.color = color_fail;
+            }
+            
+        })
+        
+    } catch(err) {
+        console.error(`Error: ${err}`);
+    }
+  }
+setInterval(poll_driver_status, 1000)
+
 const set_connection_lost = (forced=false) =>{
     if(is_connected || forced){
         is_connected = false;
@@ -53,10 +77,6 @@ const set_connection_success = (forced=false) =>{
 var on_conn_close = set_connection_lost
 var on_conn_update = (event) => {
     incomming_data = JSON.parse(event.data)[0];
-
-    if(incomming_data["driver_status"] !== undefined){
-        driver_state_elem.innerText = driver_state_elem.textContent = incomming_data["driver_status"]
-    }
 
     if(incomming_data["scan_data"] !== undefined){
         // calculate update_period

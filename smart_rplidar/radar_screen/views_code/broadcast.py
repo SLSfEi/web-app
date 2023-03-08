@@ -12,3 +12,11 @@ def broadcast_ticks(ticks):
             "type": 'new_ticks',
             "content": json.dumps(ticks),
         })
+
+async def broadcast_ticks_async(ticks):
+    channel_layer = channels.layers.get_channel_layer()
+    channel_layer.group_send(
+        settings.TICKS_GROUP_NAME, {
+            "type": 'new_ticks',
+            "content": json.dumps(ticks),
+        })
