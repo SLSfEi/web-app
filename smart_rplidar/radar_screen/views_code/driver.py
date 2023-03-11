@@ -1,7 +1,8 @@
 import subprocess
 from pathlib import Path
+from django.conf import settings
 
-driver_executable = "D:\\rplidar\\cmake_scan_provider\\scan_provider\\scan_provider.exe"
+driver_executable = settings.DRIVER_EXECUTABLE
 driver_cwd = Path(driver_executable).parent
 driver_process = None
 
@@ -30,7 +31,6 @@ def restart_driver():
 restart_driver()
 
 # terminate driver before server exiting
-import signal
-signal.signal(signal.SIGINT, terminate_driver)
-signal.signal(signal.SIGTERM, terminate_driver)
+import atexit
+atexit.register(lambda *x : terminate_driver())
     
