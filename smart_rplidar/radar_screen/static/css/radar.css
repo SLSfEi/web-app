@@ -118,6 +118,14 @@ button{
     );
 }
 
+.button-terminate-driver{
+    background: linear-gradient(
+        130deg,
+        #f46d6d,
+        #f54646
+    );
+}
+
 #canvas-host{
     width: 75vh;
     height: 0;

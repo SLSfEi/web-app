@@ -2,6 +2,8 @@ const status_elem = document.getElementById("connection_status")
 const period_elem = document.getElementById("update_period")
 const draw_period_elem = document.getElementById("draw_period")
 const driver_state_elem = document.getElementById("driver_state")
+const driver_reset_elem = document.getElementById("driver_reset")
+const driver_terminate_elem = document.getElementById("driver_terminate")
 
 let is_connected = false;
 let update_period = -1;
@@ -32,12 +34,22 @@ const poll_driver_status = async () => {
         })
         .then((data) => {
             let status = data["driver_status"]
-            if(status){
-                driver_state_elem.innerText = driver_state_elem.textContent = "RUNNING";
-                driver_state_elem.style.color = color_success;
+            let exist = data["driver_exist"]
+            if(exist){
+                driver_state_elem.parentElement.style.display = "flex";
+                driver_reset_elem.style.display = "unset";
+                driver_terminate_elem.style.display = "unset";
+                if(status){
+                    driver_state_elem.innerText = driver_state_elem.textContent = "RUNNING";
+                    driver_state_elem.style.color = color_success;
+                } else {
+                    driver_state_elem.innerText = driver_state_elem.textContent = "STOPPED";
+                    driver_state_elem.style.color = color_fail;
+                }
             } else {
-                driver_state_elem.innerText = driver_state_elem.textContent = "STOPPED";
-                driver_state_elem.style.color = color_fail;
+                driver_state_elem.parentElement.style.display = "none";
+                driver_reset_elem.style.display = "none";
+                driver_terminate_elem.style.display = "none";
             }
             
         })

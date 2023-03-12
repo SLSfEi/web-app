@@ -2,9 +2,12 @@ import subprocess
 from pathlib import Path
 from django.conf import settings
 
-driver_executable = settings.DRIVER_EXECUTABLE
-driver_cwd = Path(driver_executable).parent
+driver_executable = Path(settings.DRIVER_EXECUTABLE)
+driver_cwd = driver_executable.parent
 driver_process = None
+
+def is_driver_exist():
+    return driver_executable.is_file()
 
 def is_driver_alive():
     global driver_process
@@ -13,12 +16,18 @@ def is_driver_alive():
     return False
 
 def terminate_driver():
+    if(not is_driver_exist()):
+        return
+
     global driver_process
     if(is_driver_alive()):
         print("terminating driver")
         driver_process.terminate()
 
 def restart_driver():
+    if(not is_driver_exist()):
+        return
+
     global driver_process
     terminate_driver()
     

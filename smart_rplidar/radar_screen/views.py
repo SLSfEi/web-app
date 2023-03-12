@@ -42,11 +42,14 @@ def driver(req):
                 driver_ctrl.terminate_driver()
             else:
                 raise ValueError("unknown driver command")
-            print("command OK")
             return JsonResponse({"status": "OK"})
         except Exception as e:
             print(e)
             return JsonResponse({"status": "error", "description": "cannot parse data"})
     elif req.method == "GET":
-        return JsonResponse({"status": "OK", "driver_status": driver_ctrl.is_driver_alive()})
+        return JsonResponse({
+            "status": "OK",
+            "driver_status": driver_ctrl.is_driver_alive(),
+            "driver_exist": driver_ctrl.is_driver_exist()
+            })
     return JsonResponse({"status": "error", "description": "this endpoint supports POST only"})
