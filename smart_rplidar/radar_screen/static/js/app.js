@@ -48,6 +48,6 @@ const scale_point = (x,y) => {
 
 const reverse_scale_point = (x,y) => {
     const new_x = ((x - (app.screen.width / 2)) * ((max_dist+additional_dist)/app.screen.width))*2;
-    const new_y = ((y - (app.screen.height / 2)) * ((max_dist+additional_dist)/app.screen.height))*2;
+    const new_y = -((y - (app.screen.height / 2)) * ((max_dist+additional_dist)/app.screen.height))*2;
     return [new_x,new_y]
 };
