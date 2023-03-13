@@ -37,8 +37,10 @@ def terminate_driver():
                 print("error while terminating driver", e)
         else:
             print("==================== else")
-            os.setpgrp()
-            os.killpg(0,signal.SIGTERM)
+            try:
+                os.killpg(os.getpgid(driver_process.pid),signal.SIGTERM)
+            except Exception as e:
+                print("error while terminating driver", e)
 
 def restart_driver():
     if(not is_driver_exist()):
