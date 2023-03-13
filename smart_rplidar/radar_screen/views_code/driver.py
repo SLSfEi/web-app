@@ -7,15 +7,18 @@ driver_cwd = driver_executable.parent
 driver_process = None
 
 def is_driver_exist():
+    print("driver exists")
     return driver_executable.is_file()
 
 def is_driver_alive():
     global driver_process
+    print("state", driver_process, driver_process.poll())
     if(driver_process is not None and driver_process.poll() is None):
         return True
     return False
 
 def terminate_driver():
+    print("attempting to terminate")
     if(not is_driver_exist()):
         return
 
