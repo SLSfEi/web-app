@@ -1,4 +1,6 @@
 import subprocess
+import os
+import signal
 from pathlib import Path
 from django.conf import settings
 
@@ -12,20 +14,26 @@ def is_driver_exist():
 
 def is_driver_alive():
     global driver_process
-    print("state", driver_process, driver_process.poll())
-    if(driver_process is not None and driver_process.poll() is None):
+    print("state", driver_process)
+    if(driver_process is not None):
         return True
     return False
 
 def terminate_driver():
-    print("attempting to terminate")
+    print("======================attempting to terminate")
     if(not is_driver_exist()):
         return
 
     global driver_process
-    if(is_driver_alive()):
-        print("terminating driver")
-        driver_process.terminate()
+    if(driver_process is not None):
+        print("======================terminating driver")
+        try:
+            driver_process.send_signal(signal.SIGTERM)
+            driver_process.wait(5)
+            driver_process.kill()
+            driver_process = None
+        except Exception as e:
+            print("error while terminating driver", e)
 
 def restart_driver():
     if(not is_driver_exist()):
