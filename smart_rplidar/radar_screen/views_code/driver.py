@@ -42,7 +42,11 @@ def terminate_driver():
             print("==================== else")
             try:
                 print("==============killing", driver_process.pid)
-                os.kill(driver_process.pid,signal.SIGTERM)
+                os.setpgrp()
+                try:
+                    os.kill(0, signal.SIGINT)
+                except KeyboardInterrupt:
+                    pass
                 driver_process = None
             except Exception as e:
                 print("error while terminating driver", e)
