@@ -14,11 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-
+from django.conf import settings
+from fileserveview.views import FileServeView
 from radar_screen import views as rs_views
 
 urlpatterns = [
     path("", rs_views.home),
+    path("favicon.ico", FileServeView.as_view(
+        authenticated_user_only=False,
+        file=settings.STATIC_ROOT / "icon" / "favicon.ico",
+        is_download=False
+    )),
     path("radar", rs_views.radar),
     path("api/v1/scan", rs_views.scan),
     path("api/v1/driver", rs_views.driver)
