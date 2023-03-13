@@ -16,8 +16,11 @@ def is_driver_exist():
 def is_driver_alive():
     global driver_process
     print("state", driver_process)
-    if(driver_process is not None and driver_process.poll() is None):
-        return True
+    try:
+        if(driver_process is not None and driver_process.poll() is None):
+            return True
+    except Exception as e:
+        print("error while checking driver state", e)
     return False
 
 def terminate_driver():
