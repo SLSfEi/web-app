@@ -42,11 +42,7 @@ def terminate_driver():
             print("==================== else")
             try:
                 print("==============killing", driver_process.pid)
-                os.setpgrp()
-                try:
-                    os.killpg(0, signal.SIGINT)
-                except KeyboardInterrupt:
-                    pass
+                os.killpg(os.getpgid(driver_process.pid), signal.SIGTERM)
                 driver_process = None
             except Exception as e:
                 print("error while terminating driver", e)
@@ -62,7 +58,8 @@ def restart_driver():
                                         cwd=driver_cwd,
                                         stdin=subprocess.PIPE,
                                         stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE)
+                                        stderr=subprocess.PIPE,
+                                        preexec_fn=os.setsid)
     print("creating new process", driver_process)
 #restart_driver()
 
