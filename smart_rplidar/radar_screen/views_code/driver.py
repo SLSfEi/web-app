@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 import signal
 from pathlib import Path
 from django.conf import settings
@@ -27,13 +28,17 @@ def terminate_driver():
     global driver_process
     if(driver_process is not None):
         print("======================terminating driver")
-        try:
-            driver_process.send_signal(signal.SIGTERM)
-            driver_process.wait(5)
-            driver_process.kill()
-            driver_process = None
-        except Exception as e:
-            print("error while terminating driver", e)
+        if sys.platform.startswith("win"):
+            print("==================== windows")
+            try:
+                driver_process.send_signal(signal.SIGTERM)
+                driver_process = None
+            except Exception as e:
+                print("error while terminating driver", e)
+        else:
+            print("==================== else")
+            os.setpgrp()
+            os.killpg(0,signal.SIGTERM)
 
 def restart_driver():
     if(not is_driver_exist()):
