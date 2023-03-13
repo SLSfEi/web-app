@@ -41,6 +41,7 @@ def terminate_driver():
         else:
             print("==================== else")
             try:
+                print("==============killing", driver_process.pid)
                 os.kill(driver_process.pid,signal.SIGTERM)
                 driver_process = None
             except Exception as e:
@@ -59,7 +60,7 @@ def restart_driver():
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE)
     print("creating new process", driver_process)
-restart_driver()
+#restart_driver()
 
 # terminate driver before server exiting
 import atexit
