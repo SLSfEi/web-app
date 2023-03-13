@@ -44,7 +44,7 @@ def terminate_driver():
                 print("==============killing", driver_process.pid)
                 os.setpgrp()
                 try:
-                    os.kill(0, signal.SIGINT)
+                    os.killpg(0, signal.SIGINT)
                 except KeyboardInterrupt:
                     pass
                 driver_process = None
