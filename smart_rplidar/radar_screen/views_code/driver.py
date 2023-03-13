@@ -16,7 +16,7 @@ def is_driver_exist():
 def is_driver_alive():
     global driver_process
     print("state", driver_process)
-    if(driver_process is not None):
+    if(driver_process is not None and driver_process.poll() is None):
         return True
     return False
 
@@ -39,6 +39,7 @@ def terminate_driver():
             print("==================== else")
             try:
                 os.killpg(os.getpgid(driver_process.pid),signal.SIGTERM)
+                driver_process = None
             except Exception as e:
                 print("error while terminating driver", e)
 
