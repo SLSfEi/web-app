@@ -62,7 +62,7 @@ def restart_driver():
                                             preexec_fn=os.setsid)
 
     print("creating new process", driver_process)
-#restart_driver()
+restart_driver()
 
 # terminate driver before server exiting
 import atexit
