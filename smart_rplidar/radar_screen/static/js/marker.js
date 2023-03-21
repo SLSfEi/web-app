@@ -82,8 +82,8 @@ const add_marker = (pos_x, pos_y) => {
 
     let texture = new PIXI.Graphics();
     texture.beginFill(0xFFFFFF,0.3)
-    .drawCircle(0,0,40)
-    .endFill()
+    //.drawCircle(0,0,40)
+    //.endFill()
     .beginFill(0xFFFFFF, 1)
     .drawCircle(0,0,10)
     .endFill();
