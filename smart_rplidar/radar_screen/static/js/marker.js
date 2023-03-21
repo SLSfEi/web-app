@@ -34,17 +34,36 @@ const add_test_markers = () => {
 }
 
 const add_marker_from_parameters = (width_m, height_m, number_x, number_y) => {
-    const x_dist = (width_m*1000) / (number_x-1);
-    const y_dist = (height_m*1000) / (number_y-1);
+    let x_dist = 0;
+    let y_dist = 0;
 
-    const offset_x = (width_m*1000) / 2;
-    const offset_y = (height_m*1000) / 2;
+    let offset_x = 0;
+    let offset_y = 0;
+    
+    if(number_x % 2 ==0){
+        x_dist = (width_m*1000) / (number_x);
+        x_dist += (x_dist / (number_x-1));
+        offset_x = ((width_m*1000)) * -0.5;
+    } else {
+        x_dist = (width_m*1000) / (number_x);
+        offset_x = ((width_m*1000) - x_dist) * -0.5;
+    }
+    if(number_y % 2 ==0){
+        y_dist = (height_m*1000) / (number_y);
+        y_dist += (y_dist / (number_y-1));
+        offset_y = ((height_m*1000)) * -0.5;
+    } else {
+        y_dist = (height_m*1000) / (number_y);
+        offset_y = ((height_m*1000) - y_dist) * -0.5;
+    }
+
+    console.log([x_dist, y_dist],[offset_x, offset_y])
 
     for(let x = 0; x < number_x; x++){
         for(let y = 0; y < number_y; y++){
-            const pos_x = (x*x_dist) - offset_x;
-            const pos_y = (y*y_dist) - offset_y;
-            // console.log([pos_x,pos_y])
+            const pos_x = (x*x_dist) + offset_x;
+            const pos_y = (y*y_dist) + offset_y;
+            console.log([pos_x,pos_y])
             add_marker(pos_x,pos_y);
         }
     }
