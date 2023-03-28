@@ -33,6 +33,7 @@ This page has form for creating marker points. Settings submitted will be saved 
 
 This page will receive scan data from backend via WebSocket protocol and draw markers according to local storage.
 The graphics is drawn using javascript library called `PixiJS`.
+Driver controls functionality will be disabled automatically when `DRIVER_EXECUTABLE` is not found.
 ## Configurations
 The configuration file must be named `.env` and be located in the same directory as the `settings.py` script.
 
