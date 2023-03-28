@@ -2,6 +2,7 @@
 The purpose of this web-app is to facilitate explosive installation processes in the mining industry.
 It works by receiving scan data from [SLSfEi/scan-provider-cpp](https://github.com/SLSfEi/scan-provider-cpp) and displaying it to the operator while providing markers overlay.
 ## Components
+![alt text](./SLSfEI.drawio.png)
 ### backend
 The backend have the following API endpoints.
 Endpoint | Request Type | Description
