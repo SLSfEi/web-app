@@ -31,9 +31,11 @@ This page has form for creating marker points. Settings submitted will be saved 
 ![radar screen](./radar-screen.png)
 
 
-- This page will receive scan data from backend via WebSocket protocol and draw markers according to local storage.
-- The graphics is drawn using javascript library called `PixiJS`.
+- This page will receive scan data from backend via WebSocket protocol.
+- Draw markers according to parameters in local storage using javascript library called `PixiJS`.
 - Driver controls functionality will be disabled automatically when `DRIVER_EXECUTABLE` is not found.
+
+
 ## Configurations
 The configuration file must be named `.env` and be located in the same directory as the `settings.py` script.
 
@@ -44,12 +46,15 @@ DEBUG | boolean | Enable django debug mode
 SECRET_KEY | string | Django secret key
 DRIVER_EXECUTABLE | string | Path to driver or scan provider executable
 
+
 **Example config file `.env`**
 ```
 DEBUG=0
 SECRET_KEY=sEcReTkEyHeRe
 DRIVER_EXECUTABLE=dRiVeR/pAtH/HeRe.exe
 ```
+
+
 # RPLidar Spoofer
 Included in this repository inside `utility` directory is a python script that mimics [SLSfEi/scan-provider-cpp](https://github.com/SLSfEi/scan-provider-cpp) HTTP POST requests for ease of testing.
 
