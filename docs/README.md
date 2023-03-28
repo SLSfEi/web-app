@@ -2,19 +2,37 @@
 The purpose of this web-app is to facilitate explosive installation processes in the mining industry.
 It works by receiving scan data from [SLSfEi/scan-provider-cpp](https://github.com/SLSfEi/scan-provider-cpp) and displaying it to the operator while providing markers overlay.
 ## Components
-![alt text](./SLSfEI.drawio.png)
+![system diagram](./SLSfEI.drawio.png)
 ### backend
 The backend have the following API endpoints.
 Endpoint | Request Type | Description
 --- | --- | ---
 /api/v1/scan | POST | For receiving scan data
 /api/v1/driver | POST | For driver management
+
+Upon receiving data at `/api/v1/scan` the backend will immediatly relay data tro frontend via WebSocket protocol.
+
+
 ### frontend
-The front have the following pages.
-URL | Description
---- | ---
-/ | Home page and markers configurations
-/radar | Actual radar screen with markers and driver controls
+The frontend have the following pages.
+URL | Name | Description
+--- | --- |---
+/ | Home | Home page and markers configurations
+/radar | Radar | Actual radar screen with markers and driver controls
+
+#### **Home page**
+![home screen](./home-screen.png)
+
+
+This page has form for creating marker points. Settings submitted will be saved to browser local storage.
+
+
+#### **Radar page**
+![radar screen](./radar-screen.png)
+
+
+This page will receive scan data from backend via WebSocket protocol and draw markers according to local storage.
+The graphics is drawn using javascript library called `PixiJS`.
 ## Configurations
 The configuration file must be named `.env` and be located in the same directory as the `settings.py` script.
 
