@@ -24,7 +24,7 @@ URL | Name | Description
 ![home screen](./home-screen.png)
 
 
-This page has form for creating marker points. Settings submitted will be saved to browser local storage.
+This page has form for creating marker points. Parameters submitted will be saved to browser local storage for later use in radar page.
 
 
 #### **Radar page**
@@ -32,7 +32,7 @@ This page has form for creating marker points. Settings submitted will be saved 
 
 
 - This page will receive scan data from backend via WebSocket protocol.
-- Draw markers according to parameters in local storage using javascript library called `PixiJS`.
+- Draw scan data and markers according to parameters in local storage using javascript library called `PixiJS`.
 - Driver controls functionality will be disabled automatically when `DRIVER_EXECUTABLE` is not found.
 
 
