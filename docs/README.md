@@ -3,17 +3,77 @@ The purpose of this web-app is to facilitate explosive installation processes in
 It works by receiving scan data from [SLSfEi/scan-provider-cpp](https://github.com/SLSfEi/scan-provider-cpp) and displaying it to the operator while providing markers overlay.
 ## Components
 ![system diagram](./SLSfEI.drawio.png)
-### backend
+### Backend
 The backend have the following API endpoints.
 Endpoint | Request Type | Description
 --- | --- | ---
 /api/v1/scan | POST | For receiving scan data
 /api/v1/driver | POST | For driver management
 
-Upon receiving data at `/api/v1/scan` the backend will immediatly relay data tro frontend via WebSocket protocol.
+Upon receiving data at `/api/v1/scan` the backend will immediately relay data to frontend via WebSocket protocol.
 
+- `/api/v1/scan`
+    - Request
+        
+        POST request - CSV string with `Content-Type: text/csv`.
+        
+        The backend expects the string to at least have the following columns
 
-### frontend
+             x
+             y
+             
+
+    - JSON Response
+
+        Successful
+        ```json
+        {
+            "status": "OK"
+        }
+        ````
+
+        Error
+        ```json
+        {
+            "status": "error",
+            "description": "error description here"
+        }
+        ```
+
+        
+- `/api/v1/driver`
+    - Request
+        
+        POST request - JSON string with `Content-Type: application/json`.
+        ```json
+        {
+            "command": "command here"
+        }
+        ```
+        Valid commands are:
+
+            restart
+            terminate
+             
+
+    - JSON Response
+
+        Successful
+        ```json
+        {
+            "status": "OK"
+        }
+        ````
+
+        Error
+        ```json
+        {
+            "status": "error",
+            "description": "error description here"
+        }
+        ```
+
+### Frontend
 The frontend have the following pages.
 URL | Name | Description
 --- | --- |---
