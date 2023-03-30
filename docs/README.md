@@ -17,7 +17,7 @@ Upon receiving data at `/api/v1/scan` the backend will immediately relay data to
         
         POST request - CSV string with `Content-Type: text/csv`.
         
-        The backend expects the string to at least have the following columns
+        The backend expects the string to at least have the following columns:
 
              x
              y
