@@ -102,7 +102,7 @@ This page is for displaying marker points. scan data and status in real time
     STOPPED | Driver is stopped.
     UNKNOWN | Driver status is unknown.
 
-- control buttons
+- Control buttons
     
     - Home button
 
