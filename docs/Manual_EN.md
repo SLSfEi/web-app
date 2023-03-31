@@ -1,4 +1,4 @@
-# Instruction
+# Instructions
 
 ## Workflow
 1. Operator specify desired marker settings in home page.
