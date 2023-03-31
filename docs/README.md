@@ -95,6 +95,10 @@ This page has form for creating marker points. Parameters submitted will be save
 - Draw scan data and markers according to parameters in local storage using javascript library called `PixiJS`.
 - Driver controls functionality will be disabled automatically when `DRIVER_EXECUTABLE` is not found.
 
+#### **User manual**
+- [English manual](./Manual_EN.md)
+- [Thai manual](./Manual_TH.md)
+
 
 ## Configurations
 The configuration file must be named `.env` and be located in the same directory as the `settings.py` script.
